@@ -4,7 +4,6 @@
 
 // similiar to map but will have increased accuracy that provides a more
 // symetric api (call it and use result to reverse will provide the original value)
-//
 int improved_map(int value, int minIn, int maxIn, int minOut, int maxOut)
 {
     const int rangeIn = maxIn - minIn;
