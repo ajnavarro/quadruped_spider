@@ -20,13 +20,11 @@ public:
   {
     move_z(z_boot);
   }
-  void store();
   void turn_left(int steps);
   void turn_right(int steps);
   void step_forward(int steps);
   void step_backwards(int steps);
-  void body_move(long x, long y);
-  void head_move(long z);
+  void body_move(long x, long y, long z);
   void align();
   void servo_service();
 

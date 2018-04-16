@@ -28,16 +28,6 @@ void Spider::move_z(float z_pos)
     wait_all_reach();
 }
 
-void Spider::store()
-{
-    move_speed = stand_seat_speed;
-    for (int leg = 0; leg < 4; leg++)
-    {
-        set_site(leg, x_default, y_default, z_boot + 10);
-    }
-    wait_all_reach();
-}
-
 void Spider::turn_left(int steps)
 {
     move_speed = spot_turn_speed;
@@ -306,21 +296,9 @@ void Spider::step_backwards(int steps)
     }
 }
 
-void Spider ::head_move(long z)
+void Spider::body_move(long x, long y, long z)
 {
-    long z1 = map(z, -10, 10, z_default - 20, z_default + 20);
-    long z2 = map(z, -10, 10, z_default + 20, z_default - 20);
-
-    set_site(0, KEEP, KEEP, z1);
-    set_site(1, KEEP, KEEP, z2);
-    set_site(2, KEEP, KEEP, z1);
-    set_site(3, KEEP, KEEP, z2);
-    wait_all_reach();
-}
-
-void Spider::body_move(long x, long y)
-{
-    move_speed = body_move_speed;
+    move_speed = stand_seat_speed;
 
     long x1 = map(x, -10, 10, x_default - 30, x_default + 30);
     long x2 = map(x, -10, 10, x_default + 30, x_default - 30);
@@ -328,10 +306,13 @@ void Spider::body_move(long x, long y)
     long y1 = map(y, -10, 10, y_default + 30, y_default - 30);
     long y2 = map(y, -10, 10, y_default - 30, y_default + 30);
 
-    set_site(0, x1, y1, KEEP);
-    set_site(1, x1, y2, KEEP);
-    set_site(2, x2, y1, KEEP);
-    set_site(3, x2, y2, KEEP);
+    long z1 = map(z, -10, 10, z_default - 20, z_default + 20);
+    long z2 = map(z, -10, 10, z_default + 20, z_default - 20);
+
+    set_site(0, x1, y1, z1);
+    set_site(1, x1, y2, z2);
+    set_site(2, x2, y1, z1);
+    set_site(3, x2, y2, z2);
 
     wait_all_reach();
 }
@@ -430,10 +411,6 @@ void Spider::servo_service()
     }
 }
 
-/*
-  - trans site from cartesian to polar
-  - mathematical model 2/2
-   ---------------------------------------------------------------------------*/
 void Spider::cartesian_to_polar(volatile float &alpha, volatile float &beta, volatile float &gamma, volatile float x, volatile float y, volatile float z)
 {
     //calculate w-z degree
@@ -450,36 +427,19 @@ void Spider::cartesian_to_polar(volatile float &alpha, volatile float &beta, vol
     gamma = gamma / PI * 180;
 }
 
-/*
-  - trans site from polar to microservos
-  - mathematical model map to fact
-  - the errors saved in eeprom will be add
-   ---------------------------------------------------------------------------*/
 void Spider::polar_to_servo(int leg, float alpha, float beta, float gamma)
 {
-    if (leg == 0)
+    if (leg == 0 || leg == 3)
     {
         alpha = 90 - alpha;
         beta = beta;
         gamma += 90;
     }
-    else if (leg == 1)
+    else if (leg == 1 || leg == 2)
     {
         alpha += 90;
         beta = 180 - beta;
         gamma = 90 - gamma;
-    }
-    else if (leg == 2)
-    {
-        alpha += 90;
-        beta = 180 - beta;
-        gamma = 90 - gamma;
-    }
-    else if (leg == 3)
-    {
-        alpha = 90 - alpha;
-        beta = beta;
-        gamma += 90;
     }
 
     servo[leg][0].write(alpha);
