@@ -45,12 +45,12 @@ private:
   const float length_a = 55;
   const float length_b = 77.5;
   const float length_c = 27.5;
-  const float length_side = 71;
-  const float z_absolute = -28;
+  const float length_side = 69.6;
+  const float z_absolute = -31.6;
   /* Constants for movement ----------------------------------------------------*/
-  const float z_default = -50, z_up = -30, z_boot = z_absolute;
-  const float x_default = 62, x_offset = 0;
-  const float y_start = 0, y_step = 40;
+  const float z_default = -55, z_up = -35, z_boot = z_absolute;
+  const float x_default = 60, x_offset = 0;
+  const float y_start = 0, y_step = 45;
   const float y_default = x_default;
   /* variables for movement ----------------------------------------------------*/
   volatile float site_now[4][3];    //real-time coordinates of the end of each leg

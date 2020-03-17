@@ -382,6 +382,7 @@ void Spider::servo_attach(void)
 {
     pwm = new servo_PCA9685();
     pwm->begin();
+    pwm->setPWMFreq(50);
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 3; j++)
