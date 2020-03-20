@@ -2,7 +2,6 @@
 #define spider_h
 
 #include <Arduino.h>
-#include <Ticker.h>
 #include <Servo9685.h>
 
 #define PI 3.1415926535897932384626433832795
